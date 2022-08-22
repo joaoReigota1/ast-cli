@@ -2,7 +2,6 @@ package commands
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -37,6 +36,7 @@ func NewAstCLI(
 	gitLabWrapper wrappers.GitLabWrapper,
 	bflWrapper wrappers.BflWrapper,
 	learnMoreWrapper wrappers.LearnMoreWrapper,
+	dastResultsWrapper wrappers.DastResultsWrapper,
 ) *cobra.Command {
 	// Create the root
 	rootCmd := &cobra.Command{
@@ -119,7 +119,7 @@ func NewAstCLI(
 	)
 
 	// Create the CLI command structure
-	scanCmd := NewScanCommand(scansWrapper, uploadsWrapper, resultsWrapper, projectsWrapper, logsWrapper, groupsWrapper)
+	scanCmd := NewScanCommand(scansWrapper, dastResultsWrapper, uploadsWrapper, resultsWrapper, projectsWrapper, logsWrapper, groupsWrapper)
 	projectCmd := NewProjectCommand(projectsWrapper, groupsWrapper)
 	resultsCmd := NewResultsCommand(resultsWrapper, scansWrapper, codeBashingWrapper, bflWrapper)
 	versionCmd := util.NewVersionCommand()
@@ -198,13 +198,6 @@ func addResultFormatFlag(cmd *cobra.Command, defaultFormat string, otherAvailabl
 		params.TargetFormatFlag, defaultFormat,
 		fmt.Sprintf(params.FormatFlagUsageFormat, append(otherAvailableFormats, defaultFormat)),
 	)
-}
-
-func markFlagAsRequired(cmd *cobra.Command, flag string) {
-	err := cmd.MarkPersistentFlagRequired(flag)
-	if err != nil {
-		log.Fatal(err)
-	}
 }
 
 func addScanIDFlag(cmd *cobra.Command, helpMsg string) {
