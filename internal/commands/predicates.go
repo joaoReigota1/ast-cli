@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"github.com/checkmarx/ast-cli/internal/commands/util"
 	"strings"
 	"time"
 
@@ -48,9 +49,9 @@ func triageShowSubCommand(resultsPredicatesWrapper wrappers.ResultsPredicatesWra
 	triageShowCmd.PersistentFlags().String(params.ProjectIDFlag, "", "Project ID.")
 	triageShowCmd.PersistentFlags().String(params.ScanTypeFlag, "", "Scan Type")
 
-	markFlagAsRequired(triageShowCmd, params.SimilarityIDFlag)
-	markFlagAsRequired(triageShowCmd, params.ProjectIDFlag)
-	markFlagAsRequired(triageShowCmd, params.ScanTypeFlag)
+	util.MarkFlagAsRequired(triageShowCmd, params.SimilarityIDFlag)
+	util.MarkFlagAsRequired(triageShowCmd, params.ProjectIDFlag)
+	util.MarkFlagAsRequired(triageShowCmd, params.ScanTypeFlag)
 
 	return triageShowCmd
 }
@@ -81,11 +82,11 @@ func triageUpdateSubCommand(resultsPredicatesWrapper wrappers.ResultsPredicatesW
 	triageUpdateCmd.PersistentFlags().String(params.CommentFlag, "", "Optional comment.")
 	triageUpdateCmd.PersistentFlags().String(params.ScanTypeFlag, "", "Scan Type")
 
-	markFlagAsRequired(triageUpdateCmd, params.SimilarityIDFlag)
-	markFlagAsRequired(triageUpdateCmd, params.SeverityFlag)
-	markFlagAsRequired(triageUpdateCmd, params.ProjectIDFlag)
-	markFlagAsRequired(triageUpdateCmd, params.StateFlag)
-	markFlagAsRequired(triageUpdateCmd, params.ScanTypeFlag)
+	util.MarkFlagAsRequired(triageUpdateCmd, params.SimilarityIDFlag)
+	util.MarkFlagAsRequired(triageUpdateCmd, params.SeverityFlag)
+	util.MarkFlagAsRequired(triageUpdateCmd, params.ProjectIDFlag)
+	util.MarkFlagAsRequired(triageUpdateCmd, params.StateFlag)
+	util.MarkFlagAsRequired(triageUpdateCmd, params.ScanTypeFlag)
 
 	return triageUpdateCmd
 }

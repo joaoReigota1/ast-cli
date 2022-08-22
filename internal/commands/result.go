@@ -145,8 +145,8 @@ func resultBflSubCommand(bflWrapper wrappers.BflWrapper) *cobra.Command {
 	addQueryIDFlag(resultBflCmd, "Query Id from the result.")
 	addFormatFlag(resultBflCmd, printer.FormatList, printer.FormatJSON)
 
-	markFlagAsRequired(resultBflCmd, commonParams.ScanIDFlag)
-	markFlagAsRequired(resultBflCmd, commonParams.QueryIDFlag)
+	util.MarkFlagAsRequired(resultBflCmd, commonParams.ScanIDFlag)
+	util.MarkFlagAsRequired(resultBflCmd, commonParams.QueryIDFlag)
 
 	return resultBflCmd
 }
@@ -953,14 +953,8 @@ func addPackageInformation(
 			for _, packages := range *scaPackageModel {
 				currentPackage := packages
 				if packages.ID == currentID {
-					for _, dependencyPath := range currentPackage.DependencyPathArray {
-						head := &dependencyPath[0]
-						head.Locations = locationsByID[head.ID]
-						head.SupportsQuickFix = len(dependencyPath) == 1
-						for _, location := range locationsByID[head.ID] {
-							head.SupportsQuickFix = head.SupportsQuickFix && util.IsPackageFileSupported(*location)
-						}
-						currentPackage.SupportsQuickFix = currentPackage.SupportsQuickFix || head.SupportsQuickFix
+					for index, dependencyPath := range currentPackage.DependencyPathArray {
+						currentPackage.DependencyPathArray[index][0].Locations = locationsByID[dependencyPath[0].ID]
 					}
 					currentPackage.FixLink = "https://devhub.checkmarx.com/cve-detail/" + result.VulnerabilityDetails.CveName
 					result.ScanResultData.ScaPackageCollection = &currentPackage

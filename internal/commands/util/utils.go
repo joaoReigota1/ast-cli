@@ -2,6 +2,7 @@ package util
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"regexp"
 
@@ -94,4 +95,12 @@ func ReadFileAsString(path string) (string, error) {
 	}
 
 	return string(content), nil
+}
+
+// MarkFlagAsRequired Mark a flag as required
+func MarkFlagAsRequired(cmd *cobra.Command, flag string) {
+	err := cmd.MarkPersistentFlagRequired(flag)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

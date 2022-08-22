@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"encoding/json"
 	"fmt"
+	"github.com/checkmarx/ast-cli/internal/subcommands/dast"
 	"io"
 	"io/fs"
 	"io/ioutil"
@@ -100,6 +101,7 @@ var (
 
 func NewScanCommand(
 	scansWrapper wrappers.ScansWrapper,
+	dastResultsWrapper wrappers.DastResultsWrapper,
 	uploadsWrapper wrappers.UploadsWrapper,
 	resultsWrapper wrappers.ResultsWrapper,
 	projectsWrapper wrappers.ProjectsWrapper,
@@ -137,6 +139,10 @@ func NewScanCommand(
 
 	kicsRealtimeCmd := scanRealtimeSubCommand()
 
+	dastWebCmd := dast.ScanDastRealTimeWebSubCommand(dastResultsWrapper)
+
+	dastAPICmd := dast.ScanDastRealTimeAPISubCommand(dastResultsWrapper)
+
 	addFormatFlagToMultipleCommands(
 		[]*cobra.Command{listScansCmd, showScanCmd, workflowScanCmd},
 		printer.FormatTable, printer.FormatList, printer.FormatJSON,
@@ -154,6 +160,8 @@ func NewScanCommand(
 		tagsCmd,
 		logsCmd,
 		kicsRealtimeCmd,
+		dastWebCmd,
+		dastAPICmd,
 	)
 	return scanCmd
 }
@@ -195,7 +203,7 @@ func scanRealtimeSubCommand() *cobra.Command {
 		"docker",
 		"Name in the $PATH for the container engine to run kics. Example:podman.",
 	)
-	markFlagAsRequired(realtimeScanCmd, commonParams.KicsRealtimeFile)
+	util.MarkFlagAsRequired(realtimeScanCmd, commonParams.KicsRealtimeFile)
 	return realtimeScanCmd
 }
 
@@ -213,8 +221,8 @@ func scanLogsSubCommand(logsWrapper wrappers.LogsWrapper) *cobra.Command {
 	}
 	logsCmd.PersistentFlags().String(commonParams.ScanIDFlag, "", "Scan ID to retrieve log for.")
 	logsCmd.PersistentFlags().String(commonParams.ScanTypeFlag, "", "Scan type to pull log for, ex: sast, kics or sca.")
-	markFlagAsRequired(logsCmd, commonParams.ScanIDFlag)
-	markFlagAsRequired(logsCmd, commonParams.ScanTypeFlag)
+	util.MarkFlagAsRequired(logsCmd, commonParams.ScanIDFlag)
+	util.MarkFlagAsRequired(logsCmd, commonParams.ScanTypeFlag)
 
 	return logsCmd
 }

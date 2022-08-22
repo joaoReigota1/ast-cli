@@ -74,7 +74,11 @@ const (
 	ScanTypes                    = "scan-types"
 	ScanTypeFlag                 = "scan-type"
 	KicsRealtimeFile             = "file"
+	DastRealTimeFile             = "file"
 	KicsRealtimeEngine           = "engine"
+	DastRealTimeEngine           = "engine"
+	DastOpenAPIFile              = "open-api"
+	DastOutputFile               = "output"
 	KicsRealtimeAdditionalParams = "additional-params"
 	RemediationFiles             = "package-files"
 	KicsRemediationFile          = "results-file"
@@ -114,6 +118,7 @@ const (
 	KicsContainerNameKey         = "kics-container-name"
 	KicsPlatformsFlag            = "kics-platforms"
 	KicsPlatformsFlagUsage       = "KICS Platform Flag"
+	DastContainerNameKey         = "dast-container-name"
 
 	// INDIVIDUAL FILTER FLAGS
 	SastFilterFlag  = "sast-filter"

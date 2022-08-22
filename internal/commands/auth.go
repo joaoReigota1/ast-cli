@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"github.com/checkmarx/ast-cli/internal/commands/util"
 	"log"
 
 	"github.com/MakeNowJust/heredoc"
@@ -96,7 +97,7 @@ func NewAuthCommand(authWrapper wrappers.AuthWrapper) *cobra.Command {
 		params.ClientRolesFlag, params.ClientRolesSh, []string{},
 		fmt.Sprintf("A list of roles of the client %v", RoleSlice),
 	)
-	markFlagAsRequired(createClientCmd, params.ClientRolesFlag)
+	util.MarkFlagAsRequired(createClientCmd, params.ClientRolesFlag)
 
 	validLoginCmd := &cobra.Command{
 		Use:   "validate",
